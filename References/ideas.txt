@@ -1,0 +1,9 @@
+note time
+ideas:
+use a visual representation of the node graph to help with costs, could get unmanageable
+assume a default cost for each node, use positions and distance to assist with heuristic calculation
+use the same path for decision making as for navagating
+
+
+
+hardest part of a* is translating it into code

@@ -4,20 +4,49 @@ using System.Collections.Generic;
 
 public class Node : MonoBehaviour
 {
-    List<Node> m_AdjacentNodes;
-    List<Edge> m_ConnectedEdges;
+    public Vector3 m_position;
+
+    public List<Node> m_AdjacentNodes;      /* TODO: replace with accessors */
+    public List<Edge> m_ConnectedEdges;
 
     Node m_Parent;
 
-    // Use this for initialization
-    void Start()
-    {
+    /* F = G + H*/
+    public float m_FCost;                   /* TODO: replace with accessors */
+    public float m_GCost;
+    public float m_HCost;
 
+    void Awake()
+    {
+        m_AdjacentNodes = new List<Node>();
+        m_ConnectedEdges = new List<Edge>();
+
+        m_position = transform.position;
+
+        //use an overlapsphere to get the adjacents
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CalculateFs()
     {
+        foreach (Node adjacent in m_AdjacentNodes)
+        {
+            adjacent.m_FCost = adjacent.m_GCost + adjacent.m_HCost;
+        }
+    }
 
+    public void CalculateGs()
+    {
+        foreach (Node adjacent in m_AdjacentNodes)
+        {
+            adjacent.m_GCost = Mathf.Abs((adjacent.m_position - m_position).sqrMagnitude);
+        }
+    }
+
+    public void CalculateHs(Node goalNode)
+    {
+        foreach (Node adjacent in m_AdjacentNodes)
+        {
+            adjacent.m_HCost = Mathf.Abs((goalNode.m_position - adjacent.m_position).sqrMagnitude);
+        }
     }
 }
