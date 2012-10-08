@@ -1,0 +1,13 @@
+add start
+while true
+current node = lowest f on open list
+add current to closed list
+foreach adjacent to current node
+if unwalkable || closed; continue
+if not on open; add to open, parent to current and calculate fgh's
+if is on open && g < current.g; parent to current, recalculate fgh's and resort open
+//foreach
+if current is on closed && target; break
+if open.count == 0; break
+//while true
+starting from target add each parent to a list.

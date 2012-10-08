@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{F0CCED41-CE74-A8CF-2664-8426DCFA3C03}") = "SmartBot", "Assembly-CSharp.csproj", "{AEEA9D74-1794-0D73-17CC-786706269912}"
 EndProject
+Project("{F0CCED41-CE74-A8CF-2664-8426DCFA3C03}") = "SmartBot", "Assembly-CSharp-Editor.csproj", "{18192EEF-40C0-3D4B-2F4A-DDE8B29996D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,15 @@ Global
 		{AEEA9D74-1794-0D73-17CC-786706269912}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEEA9D74-1794-0D73-17CC-786706269912}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEEA9D74-1794-0D73-17CC-786706269912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18192EEF-40C0-3D4B-2F4A-DDE8B29996D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18192EEF-40C0-3D4B-2F4A-DDE8B29996D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18192EEF-40C0-3D4B-2F4A-DDE8B29996D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18192EEF-40C0-3D4B-2F4A-DDE8B29996D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-											GlobalSection(MonoDevelopProperties) = preSolution
+															GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

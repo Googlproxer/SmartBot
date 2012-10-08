@@ -9,12 +9,13 @@ public class Node : MonoBehaviour
     public List<Node> m_AdjacentNodes;      /* TODO: replace with accessors */
     public List<Edge> m_ConnectedEdges;
 
-    Node m_Parent;
+    public bool m_walkable = true;
+    public bool m_open, m_closed;
+
+    public Node m_Parent;
 
     /* F = G + H*/
-    public float m_FCost;                   /* TODO: replace with accessors */
-    public float m_GCost;
-    public float m_HCost;
+    public float m_FCost, m_GCost, m_HCost;                   /* TODO: replace with accessors */
 
     void Awake()
     {
@@ -24,6 +25,33 @@ public class Node : MonoBehaviour
         m_position = transform.position;
 
         //use an overlapsphere to get the adjacents
+
+        m_FCost = m_GCost = m_HCost = 0;
+        m_open = m_closed = false;
+    }
+
+    public void CalculateLocalFGH(Node goalNode)
+    {
+        bool canContinue = true;
+        if (m_Parent == null)
+        {
+            Debug.LogError("Can't calculate FGH's, No Parent");
+            canContinue = false;
+        }
+        if (goalNode == null)
+        {
+            Debug.LogError("Can't calculate FGH's, No goal");
+            canContinue = false;
+        }
+        if (canContinue)
+        {
+            //calc g
+            m_GCost = Mathf.Abs((m_Parent.m_position - m_position).magnitude);
+            //calc h
+            m_HCost = Mathf.Abs((goalNode.m_position - m_position).magnitude);
+            //calc f
+            m_FCost = m_GCost + m_HCost;
+        }
     }
 
     public void CalculateFs()
@@ -38,7 +66,7 @@ public class Node : MonoBehaviour
     {
         foreach (Node adjacent in m_AdjacentNodes)
         {
-            adjacent.m_GCost = Mathf.Abs((adjacent.m_position - m_position).sqrMagnitude);
+            adjacent.m_GCost = Mathf.Abs((adjacent.m_position - m_position).magnitude);
         }
     }
 
@@ -46,7 +74,7 @@ public class Node : MonoBehaviour
     {
         foreach (Node adjacent in m_AdjacentNodes)
         {
-            adjacent.m_HCost = Mathf.Abs((goalNode.m_position - adjacent.m_position).sqrMagnitude);
+            adjacent.m_HCost = Mathf.Abs((goalNode.m_position - adjacent.m_position).magnitude);
         }
     }
 }

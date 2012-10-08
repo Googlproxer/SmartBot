@@ -9,11 +9,16 @@ public class Path
 
     public Path()
     {
-
+        m_Nodes = new List<Node>();
     }
 
     Path(Node start, Node end)
     {
         //Astar.ComputePath(start, end);
+    }
+
+    public void AddNode(Node nodeToAdd)
+    {
+        m_Nodes.Insert(0, nodeToAdd);
     }
 }
