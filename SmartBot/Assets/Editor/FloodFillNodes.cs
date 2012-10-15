@@ -4,8 +4,8 @@ using UnityEditor;
 
 public class FloodFillNodes : EditorWindow
 {
-    int width, height;
-	GameObject NodePrefab;
+    int width, height, offset;
+	GameObject NodePrefab, parent;
 
 	// Add menu named "My Window" to the Window menu
 	[MenuItem("Utilities/Flood Fill")]
@@ -27,7 +27,9 @@ public class FloodFillNodes : EditorWindow
 		EditorGUILayout.BeginVertical();
         width = EditorGUILayout.IntField("Width : ", width);
         height = EditorGUILayout.IntField("Height : ", height);
-		NodePrefab = (GameObject)EditorGUILayout.ObjectField("Node Prefab : ", NodePrefab, typeof(GameObject), true);
+        offset = EditorGUILayout.IntField("Offset : ", offset);
+        NodePrefab = (GameObject)EditorGUILayout.ObjectField("Node Prefab : ", NodePrefab, typeof(GameObject), true);
+        parent = (GameObject)EditorGUILayout.ObjectField("Parent Object : ", parent, typeof(GameObject), true);
 
 		if (GUILayout.Button("Apply"))
 		{
@@ -43,7 +45,9 @@ public class FloodFillNodes : EditorWindow
         {
             for (int j = 0; j < height; j++)
             {
-                Instantiate(NodePrefab, new Vector3(i * 32, 2, j * 32), Quaternion.identity);
+                GameObject spawned = (GameObject)Instantiate(NodePrefab, new Vector3(i * offset, 2, j * offset), Quaternion.identity);
+                spawned.transform.parent = parent.transform;
+                spawned.layer = parent.layer;
             }
         }
     }

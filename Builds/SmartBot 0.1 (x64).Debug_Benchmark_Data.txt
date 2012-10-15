@@ -1,0 +1,11 @@
+﻿Time taken to Calculate Path: 8854
+Time taken to Calculate Path: 826
+Time taken to Calculate Path: 1065
+Time taken to Calculate Path: 10791
+Time taken to Calculate Path: 3685
+Time taken to Calculate Path: 8956
+Time taken to Calculate Path: 10536
+Time taken to Calculate Path: 2870
+Time taken to Calculate Path: 8194
+Average: 6197.44.. Ticks 
+6.197 Microseconds

@@ -13,18 +13,25 @@ public class Astar
 
     public int loopnumber = 0;
 
+    long ticksTaken = 0,
+         startTime = 0;
+
+    System.Diagnostics.Stopwatch timer;
+
     public Astar()
     {
         m_OpenNodes = new List<Node>();
         m_ClosedNodes = new List<Node>();
 
         m_ComputedPath = new Path();
+
+        timer = new System.Diagnostics.Stopwatch();
     }
 
 
     public void ComputePath(Node start, Node end)
     {
-        Debug.Log("Starting Path");
+        timer.Start();
         //remove old path
         m_ComputedPath.ClearPath();
         //empty old lists
@@ -103,9 +110,13 @@ public class Astar
         if (m_current == start)
             m_ComputedPath.AddNode(m_current);
         //~while
-        Debug.Log("Path Finished");
-        Debug.Log("Drawing Path");
+        timer.Stop();
+        Debug.Log("Time taken to Calculate Path: " + timer.ElapsedTicks.ToString());
+        timer.Reset();
+        timer.Start();
         m_ComputedPath.DisplayPath();
+        timer.Stop();
+        Debug.Log("Time taken to Render Path: " + timer.ElapsedTicks.ToString());
     }
 
 

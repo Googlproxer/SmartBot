@@ -8,6 +8,7 @@ public class Node : MonoBehaviour
     public List<Node> m_AdjacentNodes;      /* TODO: replace with accessors */
     public List<Edge> m_ConnectedEdges;
 
+    public bool m_useOverlapSphereForAdjacents = true;
     public bool m_walkable = true;
     public bool m_open, m_closed;
 
@@ -23,15 +24,22 @@ public class Node : MonoBehaviour
 
         m_position = transform.position;
 
-        Collider[] adjacents = Physics.OverlapSphere(m_position, 48, (1 << 9));
-        foreach (Collider node in adjacents)
+
+        if (m_useOverlapSphereForAdjacents)
         {
-            if (node.gameObject != gameObject)
+            m_AdjacentNodes.Clear();
+            GameObject[] nodes = GameObject.FindGameObjectsWithTag("Node");
+            float offset = (nodes[1].transform.position - nodes[0].transform.position).magnitude;
+
+            Collider[] adjacents = Physics.OverlapSphere(m_position, offset * 1.5f, (1 << 9));
+            foreach (Collider node in adjacents)
             {
-                m_AdjacentNodes.Add(node.gameObject.GetComponent<Node>());
+                if (node.gameObject != gameObject)
+                {
+                    m_AdjacentNodes.Add(node.gameObject.GetComponent<Node>());
+                }
             }
         }
-
         m_FCost = m_GCost = m_HCost = 0;
         m_open = m_closed = false;
     }

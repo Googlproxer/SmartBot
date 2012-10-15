@@ -30,17 +30,10 @@ public class Pather : MonoBehaviour
         m_ray = m_cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(m_ray, out m_hit, 10000, (1 << 9)))
         {
-            //Debug.Log("Node: " + m_hit.transform.position.ToString());
             if (Input.GetMouseButtonDown(0))
-            {
                 m_start = m_hit.transform.GetComponent<Node>();
-                Debug.Log("Start Node: " + m_hit.transform.position.ToString());
-            }
             if (Input.GetMouseButtonDown(1))
-            {
                 m_end = m_hit.transform.GetComponent<Node>();
-                Debug.Log("End Node: " + m_hit.transform.position.ToString());
-            }
         }
         if (Input.GetKeyDown(KeyCode.Return))
             if (m_start != null && m_end != null)
