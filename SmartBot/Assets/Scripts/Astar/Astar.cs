@@ -11,7 +11,9 @@ public class Astar
 
     Path m_ComputedPath;
 
-    Astar()
+    public int loopnumber = 0;
+
+    public Astar()
     {
         m_OpenNodes = new List<Node>();
         m_ClosedNodes = new List<Node>();
@@ -22,14 +24,26 @@ public class Astar
 
     public void ComputePath(Node start, Node end)
     {
+        Debug.Log("Starting Path");
+        //remove old path
+        m_ComputedPath.ClearPath();
         //empty old lists
+        foreach (Node node in m_OpenNodes)
+            node.m_open = false;
         m_OpenNodes.Clear();
+        m_OpenNodes.TrimExcess();
+        foreach (Node node in m_ClosedNodes)
+            node.m_closed = false;
         m_ClosedNodes.Clear();
+        m_ClosedNodes.TrimExcess();
         //add inital node
         m_OpenNodes.Add(start);
         start.m_open = true;
         while (m_OpenNodes.Count != 0 || (m_current.m_closed && m_current != end))
         {
+            loopnumber++;
+            if (m_current == end)
+                break;
             m_current = m_OpenNodes[0];
             m_OpenNodes.RemoveAt(0);
             m_current.m_open = false;
@@ -75,17 +89,23 @@ public class Astar
                     );
         }
         //~while
+        loopnumber = 0;
         m_current = end;
-        do
+        while (m_current != start)
         {
-            if (m_current == start)
-            {
-                break;
-            }
             m_ComputedPath.AddNode(m_current);
-            m_current = m_current.m_Parent;
-        } while (true);
-        //~do while
+            //if no parent assume its the start
+            if (m_current.m_Parent != null)
+                m_current = m_current.m_Parent;
+            else
+                break;
+        }
+        if (m_current == start)
+            m_ComputedPath.AddNode(m_current);
+        //~while
+        Debug.Log("Path Finished");
+        Debug.Log("Drawing Path");
+        m_ComputedPath.DisplayPath();
     }
 
 

@@ -43,7 +43,7 @@ public class FloodFillNodes : EditorWindow
         {
             for (int j = 0; j < height; j++)
             {
-                Instantiate(NodePrefab, new Vector3(i * 32, 1, j * 32), Quaternion.identity);
+                Instantiate(NodePrefab, new Vector3(i * 32, 2, j * 32), Quaternion.identity);
             }
         }
     }

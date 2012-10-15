@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class Node : MonoBehaviour
 {
     public Vector3 m_position;
-
     public List<Node> m_AdjacentNodes;      /* TODO: replace with accessors */
     public List<Edge> m_ConnectedEdges;
 
@@ -24,7 +23,14 @@ public class Node : MonoBehaviour
 
         m_position = transform.position;
 
-        //use an overlapsphere to get the adjacents
+        Collider[] adjacents = Physics.OverlapSphere(m_position, 48, (1 << 9));
+        foreach (Collider node in adjacents)
+        {
+            if (node.gameObject != gameObject)
+            {
+                m_AdjacentNodes.Add(node.gameObject.GetComponent<Node>());
+            }
+        }
 
         m_FCost = m_GCost = m_HCost = 0;
         m_open = m_closed = false;
@@ -51,30 +57,6 @@ public class Node : MonoBehaviour
             m_HCost = Mathf.Abs((goalNode.m_position - m_position).magnitude);
             //calc f
             m_FCost = m_GCost + m_HCost;
-        }
-    }
-
-    public void CalculateFs()
-    {
-        foreach (Node adjacent in m_AdjacentNodes)
-        {
-            adjacent.m_FCost = adjacent.m_GCost + adjacent.m_HCost;
-        }
-    }
-
-    public void CalculateGs()
-    {
-        foreach (Node adjacent in m_AdjacentNodes)
-        {
-            adjacent.m_GCost = Mathf.Abs((adjacent.m_position - m_position).magnitude);
-        }
-    }
-
-    public void CalculateHs(Node goalNode)
-    {
-        foreach (Node adjacent in m_AdjacentNodes)
-        {
-            adjacent.m_HCost = Mathf.Abs((goalNode.m_position - adjacent.m_position).magnitude);
         }
     }
 }
