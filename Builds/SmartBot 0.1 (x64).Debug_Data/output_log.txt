@@ -1,98 +1,74 @@
 GfxDevice: creating device client; threaded=1
 Direct3D:
-    Version:  Direct3D 9.0c [aticfx64.dll 8.17.10.1140]
-    Renderer: ATI Radeon HD 5800 Series
+    Version:  Direct3D 9.0c [aticfx64.dll 8.17.10.1119]
+    Renderer: ATI Mobility Radeon HD 4300 Series
     Vendor:   ATI
-    VRAM:     2024 MB (via DXGI)
+    VRAM:     505 MB (via DXGI)
     Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=1 DF24=1 INTZ=1 RAWZ=0 NULL=1 RESZ=1 SlowINTZ=1
-<RI> Initializing input.
+<I> Initializing (RawInput).
 <RI> Input initialized.
-desktop: 1920x1080 60Hz; virtual: 3200x1080 at 0,0
-Initialize engine version: 3.5.6f4
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+Initialize engine version: 3.5.2f2
 Begin MonoManager ReloadAssembly
 Platform assembly: C:\Users\Simon\Desktop\Git\SmartBot\Builds\SmartBot 0.1 (x64).Debug_Data\Managed\UnityEngine.dll (this message is harmless)
 Loading C:\Users\Simon\Desktop\Git\SmartBot\Builds\SmartBot 0.1 (x64).Debug_Data\Managed\UnityEngine.dll into Unity Child Domain
 Platform assembly: C:\Users\Simon\Desktop\Git\SmartBot\Builds\SmartBot 0.1 (x64).Debug_Data\Managed\Assembly-CSharp.dll (this message is harmless)
 Loading C:\Users\Simon\Desktop\Git\SmartBot\Builds\SmartBot 0.1 (x64).Debug_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-- Completed reload, in  0.045 seconds
+- Completed reload, in  0.083 seconds
 Platform assembly: C:\Users\Simon\Desktop\Git\SmartBot\Builds\SmartBot 0.1 (x64).Debug_Data\Managed\System.dll (this message is harmless)
-Time taken to Calculate Path: 24875
+Time taken to Calculate Path: 41894
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Render Path: 7211
+Time taken to Render Path: 281185
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Calculate Path: 8854
+Time taken to Calculate Path: 285507
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Render Path: 552
+Time taken to Render Path: 1413
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Calculate Path: 826
+Time taken to Calculate Path: 2929
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Render Path: 787
+Time taken to Render Path: 1716
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Calculate Path: 1065
+Time taken to Calculate Path: 3681
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Render Path: 548
+Time taken to Render Path: 1608
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Calculate Path: 10791
+Time taken to Calculate Path: 2498
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Render Path: 3231
+Time taken to Render Path: 1774
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Calculate Path: 3685
+Time taken to Calculate Path: 2703
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Render Path: 518
+Time taken to Render Path: 1256
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Calculate Path: 8956
+Time taken to Calculate Path: 2991
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
-Time taken to Render Path: 2518
+Time taken to Render Path: 1564
  
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Time taken to Calculate Path: 10536
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Time taken to Render Path: 2508
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Time taken to Calculate Path: 2870
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Time taken to Render Path: 445
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Time taken to Calculate Path: 8194
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
-
-Time taken to Render Path: 2401
- 
-(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+(Filename: C:/BuildAgent/work/300357e52574df36/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
 
