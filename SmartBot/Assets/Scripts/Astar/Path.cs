@@ -9,6 +9,14 @@ public class Path
 
     List<GameObject> m_markers;
 
+    public List<Node> Nodes
+    {
+        get
+        {
+            return m_Nodes;
+        }
+    }
+
     public Path()
     {
         m_Nodes = new List<Node>();

@@ -1,0 +1,79 @@
+proc string replaceString(string $str, string $search, string $replace)
+{
+    string $retstr = "";        
+
+    int $len = size($str);
+    int $lenS = size($search);
+    
+    int $i, $j;
+    int $match;
+    
+    for ($i=1; $i <= $len; ++$i)
+    {
+	$match = 0;
+
+	$j = $i + ($lenS - 1);
+
+	if ($j <= $len)
+	{
+	    string $part = `substring $str $i $j`;
+	    if ($part == $search)
+	        $match = 1;
+	}
+	
+	if ($match == 1)
+	{
+	    $retstr += $replace;
+	    $i = $j;
+	}
+	else
+	{
+	    string $char = `substring $str $i $i`;
+	    $retstr += $char;
+	}
+    }
+
+    return $retstr;
+	
+}
+
+
+global proc shelf_CTD_Rig_Interface () {
+    global string $gBuffStr;
+    global string $gBuffStr0;
+    global string $gBuffStr1;
+
+    string $baseDirectory = `getenv MAYA_APP_DIR`;
+    string $tmpMayaVer = `about -v`;
+    string $mayaVer = replaceString($tmpMayaVer, " ", "-");
+    string $finalDirectory = $baseDirectory + "/" + $mayaVer + "/" + "prefs/shelves/";
+    string $imageName = "ctdRigUiIcon.xpm";
+    string $finalImageLocation = $finalDirectory + $imageName;
+
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 34
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -align "center" 
+        -label "Crash Test Dummy Rig Interface" 
+        -labelOffset 0
+        -font "tinyBoldLabelFont" 
+        -image $finalImageLocation
+        -image1 $finalImageLocation 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import maya.cmds as cmds\r\nimport crashTestDummyRigCode as rigCode\r\nrigCode.crashTestDummyInterface()" 
+        -sourceType "python" 
+        -actionIsSubstitute 0
+        -commandRepeatable 1
+    ;
+
+} 
+
+
+

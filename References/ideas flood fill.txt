@@ -1,0 +1,2 @@
+idea for new flood fill
+use old one but do a test on each to determine if it has adjacents, if not then remove it

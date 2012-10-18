@@ -9,6 +9,7 @@ public class Node : MonoBehaviour
     public List<Edge> m_ConnectedEdges;
 
     public bool m_useOverlapSphereForAdjacents = true;
+    public float m_offset = 32;
     public bool m_walkable = true;
     public bool m_open, m_closed;
 
@@ -28,10 +29,8 @@ public class Node : MonoBehaviour
         if (m_useOverlapSphereForAdjacents)
         {
             m_AdjacentNodes.Clear();
-            GameObject[] nodes = GameObject.FindGameObjectsWithTag("Node");
-            float offset = (nodes[1].transform.position - nodes[0].transform.position).magnitude;
 
-            Collider[] adjacents = Physics.OverlapSphere(m_position, offset * 1.5f, (1 << 9));
+            Collider[] adjacents = Physics.OverlapSphere(m_position, m_offset * 1.4f, (1 << 9));
             foreach (Collider node in adjacents)
             {
                 if (node.gameObject != gameObject)

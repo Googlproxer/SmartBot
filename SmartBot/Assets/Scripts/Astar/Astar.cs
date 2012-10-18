@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Astar
 {
+    public static Astar m_instance;
+
     List<Node> m_OpenNodes;
     List<Node> m_ClosedNodes;
 
@@ -11,10 +13,15 @@ public class Astar
 
     Path m_ComputedPath;
 
-    public int loopnumber = 0;
+    public Path ComputedPath
+    {
+        get
+        {
+            return m_ComputedPath;
+        }
+    }
 
-    long ticksTaken = 0,
-         startTime = 0;
+    public int loopnumber = 0;
 
     System.Diagnostics.Stopwatch timer;
 
@@ -26,6 +33,9 @@ public class Astar
         m_ComputedPath = new Path();
 
         timer = new System.Diagnostics.Stopwatch();
+
+        if (m_instance == null)
+            m_instance = this;
     }
 
 
