@@ -25,7 +25,7 @@ public class Path
 
     public void AddNode(Node nodeToAdd)
     {
-            m_Nodes.Insert(0, nodeToAdd);
+        m_Nodes.Insert(0, nodeToAdd);
     }
 
     public void DisplayPath()
@@ -45,5 +45,15 @@ public class Path
         m_Nodes.Clear();
         m_markers.Clear();
 
+    }
+
+    public static Path Concatenate(Path[] pathsToConcatenate)
+    {
+        Path returnPath = new Path();
+        for (int i = 0; i < pathsToConcatenate.Length; i++)
+        {
+            returnPath.m_Nodes.AddRange(pathsToConcatenate[i].Nodes);
+        }
+        return returnPath;
     }
 }

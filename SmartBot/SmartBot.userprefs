@@ -8,7 +8,7 @@
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
                 <Node name="Astar" expanded="True">
-                  <Node name="Astar.cs" selected="True" />
+                  <Node name="Node.cs" selected="True" />
                 </Node>
               </Node>
             </Node>

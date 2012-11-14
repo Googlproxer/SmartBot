@@ -49,8 +49,13 @@ public class FloodFillNodes : EditorWindow
             {
                 for (int k = 0; k < depth; k++)
                 {
-                    GameObject spawned = (GameObject)Instantiate(NodePrefab, new Vector3(i * offset, k * offset, j * offset), Quaternion.identity);
-                    spawned.transform.parent = parent.transform;
+                    Vector3 spawnPosition = new Vector3(parent.transform.position.x + (i * offset), parent.transform.position.y + (k * offset), parent.transform.position.z + (j * offset));
+                    if (Physics.OverlapSphere(spawnPosition, 1, 1 << 8).Length == 0)
+                    {
+                        GameObject spawned = (GameObject)Instantiate(NodePrefab, spawnPosition, Quaternion.identity);
+                        spawned.transform.parent = parent.transform;
+                        spawned.GetComponent<Node>().m_offset = offset;
+                    }
                 }
             }
         }

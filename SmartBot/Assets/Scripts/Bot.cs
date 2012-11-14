@@ -7,9 +7,7 @@ public class Bot : MonoBehaviour
     //pathfinding members
     Path m_path;
     Vector3 m_targetPosition, m_currentPosition, m_lastPosition, m_direction;
-
-    public List<Node> m_pathNodes;
-
+    
     public float m_rotationRate = 7.5f;
     public float m_moveSpeed;
     int m_nodeProximity;
@@ -94,8 +92,7 @@ public class Bot : MonoBehaviour
         m_LastLook = new Vector3();
         m_targetRotation = new Quaternion();
 
-        m_path = Astar.m_instance.ComputedPath;
-        m_pathNodes = m_path.Nodes;
+        m_path = Pather.PathVia;
         m_canMove = true;
         m_ray = new Ray();
         m_hit = new RaycastHit();
@@ -103,7 +100,7 @@ public class Bot : MonoBehaviour
 
     public void Update()
     {
-        m_pathNodes = m_path.Nodes;
+        m_path = Pather.PathVia;
         transform.position = m_currentPosition;
 
         m_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -122,7 +119,7 @@ public class Bot : MonoBehaviour
             MoveAlongPath();
         }
         if (m_LastLook != Vector3.zero && m_LastLook - m_currentPosition != Vector3.zero)
-            m_targetRotation = Quaternion.LookRotation((m_LastLook) - m_currentPosition);
+            m_targetRotation = Quaternion.LookRotation((m_LastLook) - m_currentPosition, Vector3.up);
 
         if (m_lastPosition != m_currentPosition)
             animation.Play("Walk");
@@ -165,6 +162,16 @@ public class Bot : MonoBehaviour
 
     Node GetClosestNode()
     {
-        return Physics.OverlapSphere(m_currentPosition, 1, (1 << 9))[0].GetComponent<Node>();
+        return Physics.OverlapSphere(m_currentPosition, GameObject.FindGameObjectWithTag("Node").GetComponent<Node>().m_offset, (1 << 9))[0].GetComponent<Node>();
+    }
+
+    void DoCombat()
+    {
+
+    }
+
+    void ChoosePath()
+    {
+        
     }
 }

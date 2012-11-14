@@ -8,6 +8,7 @@ public class Node : MonoBehaviour
     public List<Node> m_AdjacentNodes;      /* TODO: replace with accessors */
     public List<Edge> m_ConnectedEdges;
 
+    public bool m_useFourAdjacents = true;
     public bool m_useOverlapSphereForAdjacents = true;
     public float m_offset = 32;
     public bool m_walkable = true;
@@ -18,6 +19,24 @@ public class Node : MonoBehaviour
     /* F = G + H*/
     public float m_FCost, m_GCost, m_HCost;                   /* TODO: replace with accessors */
 
+    //flag
+    public enum FlagType
+    {
+        FT_Door,
+        FT_Cover,
+        FT_Choice,
+        FT_None
+    }
+    public FlagType m_flagtype;
+
+    public FlagType Flag
+    {
+        get
+        {
+            return m_flagtype;
+        }
+    }
+
     void Awake()
     {
         m_AdjacentNodes = new List<Node>();
@@ -25,12 +44,16 @@ public class Node : MonoBehaviour
 
         m_position = transform.position;
 
-
+        //Get adjacents
         if (m_useOverlapSphereForAdjacents)
         {
             m_AdjacentNodes.Clear();
 
-            Collider[] adjacents = Physics.OverlapSphere(m_position, m_offset * 1.4f, (1 << 9));
+            Collider[] adjacents;
+            if (!m_useFourAdjacents)
+                adjacents = Physics.OverlapSphere(m_position, m_offset * 1.4f, (1 << 9));
+            else
+                adjacents = Physics.OverlapSphere(m_position, m_offset * 1.1f, (1 << 9)); 
             foreach (Collider node in adjacents)
             {
                 if (node.gameObject != gameObject)
@@ -41,8 +64,30 @@ public class Node : MonoBehaviour
         }
         m_FCost = m_GCost = m_HCost = 0;
         m_open = m_closed = false;
+
+        //get object at node, door, cover, etc.
+        Collider[] objects = Physics.OverlapSphere(m_position, 1);
+        foreach (Collider obj in objects)
+        {
+            switch (obj.gameObject.layer)
+            {
+                case 1 << 10:
+                m_flagtype = FlagType.FT_Door;
+                    break;
+                case 1 << 11:
+                    m_flagtype = FlagType.FT_Cover;
+                    break;
+                case 1 << 12:
+                    m_flagtype = FlagType.FT_Choice;
+                    break;
+                default:
+                    m_flagtype = FlagType.FT_None;
+                    break;
+            }
+        }
     }
 
+    //astar methods
     public void CalculateLocalFGH(Node goalNode)
     {
         bool canContinue = true;
@@ -59,11 +104,16 @@ public class Node : MonoBehaviour
         if (canContinue)
         {
             //calc g
-            m_GCost = Mathf.Abs((m_Parent.m_position - m_position).magnitude);
+            m_GCost = m_Parent.m_GCost + (m_Parent.m_position - m_position).magnitude;
             //calc h
-            m_HCost = Mathf.Abs((goalNode.m_position - m_position).magnitude);
+            m_HCost = (m_position - goalNode.m_position).magnitude;
             //calc f
             m_FCost = m_GCost + m_HCost;
+            MonoBehaviour.Instantiate(Resources.Load("Prefabs/AstarSearchMarker", typeof(GameObject)), m_position, Quaternion.identity);
         }
     }
+    //~astar methods
+
+
+
 }
