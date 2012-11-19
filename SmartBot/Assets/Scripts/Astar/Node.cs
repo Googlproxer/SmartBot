@@ -39,11 +39,22 @@ public class Node : MonoBehaviour
 
     void Awake()
     {
-        m_AdjacentNodes = new List<Node>();
-        m_ConnectedEdges = new List<Edge>();
+        Initialise();
+    }
+
+    public void Initialise()
+    {
+        if (m_AdjacentNodes == null)
+            m_AdjacentNodes = new List<Node>();
+        else
+            m_AdjacentNodes.Clear();
+        if (m_ConnectedEdges == null)
+            m_ConnectedEdges = new List<Edge>();
+        else
+            m_ConnectedEdges.Clear();
 
         m_position = transform.position;
-
+        m_walkable = true;
         //Get adjacents
         if (m_useOverlapSphereForAdjacents)
         {
@@ -53,7 +64,7 @@ public class Node : MonoBehaviour
             if (!m_useFourAdjacents)
                 adjacents = Physics.OverlapSphere(m_position, m_offset * 1.4f, (1 << 9));
             else
-                adjacents = Physics.OverlapSphere(m_position, m_offset * 1.1f, (1 << 9)); 
+                adjacents = Physics.OverlapSphere(m_position, m_offset * 1.1f, (1 << 9));
             foreach (Collider node in adjacents)
             {
                 if (node.gameObject != gameObject)
@@ -66,18 +77,18 @@ public class Node : MonoBehaviour
         m_open = m_closed = false;
 
         //get object at node, door, cover, etc.
-        Collider[] objects = Physics.OverlapSphere(m_position, 1);
+        Collider[] objects = Physics.OverlapSphere(m_position, 4);
         foreach (Collider obj in objects)
         {
-            switch (obj.gameObject.layer)
+            switch (obj.gameObject.tag)
             {
-                case 1 << 10:
-                m_flagtype = FlagType.FT_Door;
+                case "Door":
+                    m_flagtype = FlagType.FT_Door;
                     break;
-                case 1 << 11:
+                case "Cover":
                     m_flagtype = FlagType.FT_Cover;
                     break;
-                case 1 << 12:
+                case "Choice":
                     m_flagtype = FlagType.FT_Choice;
                     break;
                 default:

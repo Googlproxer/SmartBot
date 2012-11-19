@@ -1,6 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Astar\Node.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Pather.cs" Line="135" Column="1" />
+      <File FileName="Assets\Scripts\Astar\Node.cs" Line="86" Column="1" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
@@ -18,7 +22,10 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="H:\Git\SmartBot\SmartBot\Assets\Scripts\Pather.cs" line="90" />
+      <Breakpoint file="H:\Git\SmartBot\SmartBot\Assets\Scripts\Pather.cs" line="105" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

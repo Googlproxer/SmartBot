@@ -7,7 +7,7 @@ public class Pather : MonoBehaviour
     public GameObject m_nodeStartPrefab, m_nodeEndPrefab;
     GameObject m_startNodeMarker, m_endNodeMarker;
 
-
+    static Graph m_Graph;
     public static Node m_start, m_end;
 
     static Path[] m_subPaths;
@@ -24,6 +24,7 @@ public class Pather : MonoBehaviour
     void Awake()
     {
         m_astar = new Astar();
+        m_Graph = new Graph();
 
         m_startNodeMarker = (GameObject)Instantiate(m_nodeStartPrefab, new Vector3(0, 1000, 0), Quaternion.identity);
         m_endNodeMarker = (GameObject)Instantiate(m_nodeEndPrefab, new Vector3(0, 1000, 0), Quaternion.identity);
@@ -88,25 +89,42 @@ public class Pather : MonoBehaviour
     {
         int pathNumber = 0;
         bool reachedEnd = false;
-
-        while (!reachedEnd)
+        Node newStart = m_start;
+        m_Graph.Scan();
+        do
         {
-            m_subPaths[pathNumber] = m_astar.CalculatePath(m_start, m_end);
+            m_subPaths[pathNumber] = m_astar.CalculatePath(newStart, m_end);
 
-            foreach (Node node in m_subPaths[pathNumber].Nodes)
+            for (int i = 0; i < m_subPaths[pathNumber].Nodes.Count; i++)
             {
-                if (node.Flag != Node.FlagType.FT_None)
+                if (m_subPaths[pathNumber].Nodes[i].Flag != Node.FlagType.FT_None)
                 {
-                    switch (node.Flag)
+                    switch (m_subPaths[pathNumber].Nodes[i].Flag)
                     {
                         case Node.FlagType.FT_Door:
-
+                            if (Choose())
+                            {
+                                newStart = m_subPaths[pathNumber].Nodes[i - 1];
+                                m_subPaths[pathNumber].Nodes[i].m_walkable = false;
+                            }
+                            else
+                            {
+                                newStart = m_subPaths[pathNumber].Nodes[i];
+                            }
                             break;
                         case Node.FlagType.FT_Cover:
 
                             break;
                         case Node.FlagType.FT_Choice:
-
+                            if (Choose())
+                            {
+                                newStart = m_subPaths[pathNumber].Nodes[i - 1];
+                                m_subPaths[pathNumber].Nodes[i].m_walkable = false;
+                            }
+                            else
+                            {
+                                newStart = m_subPaths[pathNumber].Nodes[i];
+                            }
                             break;
                         default:
 
@@ -114,7 +132,21 @@ public class Pather : MonoBehaviour
                     }
                     break;
                 }
+                if (m_subPaths[pathNumber].Nodes[i] == m_end)
+                {
+                    reachedEnd = true;
+                    break;
+                }
             }
+            pathNumber++;
         }
+        while (!reachedEnd);
+        m_finalPath = Path.Concatenate(m_subPaths);
+    }
+
+    static bool Choose()
+    {
+        Random.seed = (int)Time.time;
+        return Random.Range(-100, 100) % 2 == 0;
     }
 }

@@ -223,6 +223,8 @@ public class Astar
         timer.Stop();
         Debug.Log("Time taken to Calculate Path: " + (float.Parse(timer.ElapsedTicks.ToString()) / 10000).ToString() + "ms");
         timer.Reset();
+        if (m_pathSuccessful)
+            m_ComputedPath.DisplayPath();
         return m_ComputedPath;
     }
 

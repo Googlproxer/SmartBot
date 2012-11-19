@@ -111,7 +111,7 @@ public class Bot : MonoBehaviour
                 Pather.m_start = GetClosestNode();
                 Pather.m_end = m_hit.transform.GetComponent<Node>();
                 m_currNode = 0;
-                Pather.ComputePath();
+                Pather.CalculateWeightedPath();
             }
         }
         if (m_canMove)
@@ -162,7 +162,15 @@ public class Bot : MonoBehaviour
 
     Node GetClosestNode()
     {
-        return Physics.OverlapSphere(m_currentPosition, GameObject.FindGameObjectWithTag("Node").GetComponent<Node>().m_offset, (1 << 9))[0].GetComponent<Node>();
+        float offset = GameObject.FindGameObjectWithTag("Node").GetComponent<Node>().m_offset;
+        Collider[] nodes = Physics.OverlapSphere(m_currentPosition, offset, (1 << 9));
+        Collider closest = nodes[0];
+        foreach (Collider node in nodes)
+        {
+            if ((node.transform.position - m_currentPosition).magnitude < (closest.transform.position - m_currentPosition).magnitude)
+                closest = node;
+        }
+        return closest.GetComponent<Node>();
     }
 
     void DoCombat()
