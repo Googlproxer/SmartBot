@@ -91,6 +91,10 @@ public class Pather : MonoBehaviour
         bool reachedEnd = false;
         Node newStart = m_start;
         m_Graph.Scan();
+        for (int i = 0; i < m_subPaths.Length; i++)
+        {
+            m_subPaths[i] = new Path();
+        }
         do
         {
             m_subPaths[pathNumber] = m_astar.CalculatePath(newStart, m_end);
