@@ -37,9 +37,28 @@ public class Node : MonoBehaviour
         }
     }
 
+    public enum NodeType
+    {
+        NT_Door,
+        NT_Cover,
+        NT_Target
+    }
+    NodeType m_nodeType;
+
     void Awake()
     {
         Initialise();
+    }
+
+    public Node(Vector3 position, NodeType type)
+    {
+        m_position = position;
+        m_nodeType = type;
+        m_walkable = true;
+        m_AdjacentNodes = new List<Node>();
+        m_ConnectedEdges = new List<Edge>();
+        m_FCost = m_GCost = m_HCost = 0;
+        m_open = m_closed = false;
     }
 
     public void Initialise()

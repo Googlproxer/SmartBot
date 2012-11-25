@@ -34,7 +34,7 @@ public class CombatDummy : MonoBehaviour
         m_bullets = new GameObject[m_clipSize];
         for (int i = 0; i < m_clipSize; i++)
         {
-            m_bullets[i] = (GameObject)Instantiate(m_BulletPrefab, Vector3.zero, Quaternion.identity);
+            m_bullets[i] = (GameObject)Instantiate(m_BulletPrefab, m_FirePoint.position, Quaternion.identity);
             m_bullets[i].renderer.enabled = false;
         }
         m_bulletsFired = new bool[m_clipSize];
@@ -79,7 +79,7 @@ public class CombatDummy : MonoBehaviour
             {
                 if (m_bulletsFired[i])
                 {
-                    m_bullets[i].transform.position += (m_FirePoint.position - m_targetPosition).normalized * 50 * Time.deltaTime;
+                    m_bullets[i].transform.position += ((m_FirePoint.position - m_targetPosition).normalized + m_FirePoint.position) * Time.deltaTime;
                 }
             }
         }
@@ -90,7 +90,7 @@ public class CombatDummy : MonoBehaviour
                 for (int i = 0; i < m_clipSize; i++)
                 {
                     m_bullets[i].renderer.enabled = false;
-                    m_bullets[i].transform.position = Vector3.zero;
+                    m_bullets[i].transform.position = m_FirePoint.position;
                     m_bulletsFired[i] = false;
                 }
                 m_reloaded = true;
@@ -125,7 +125,10 @@ public class CombatDummy : MonoBehaviour
     void Reload()
     {
         if (!m_reloading)
+        {
             m_reloading = true;
+            m_reloaded = false;
+        }
     }
 
 
