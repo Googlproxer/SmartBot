@@ -12,9 +12,10 @@ public class CameraController : MonoBehaviour
     }
     public CameraState m_cameraState;				// Set the camera type
 
+    public Transform m_target;
+
     private GameObject m_gameCam;					// the child camera
     public Vector3 m_camOffset; 					// how far from container the cam should start	
-    private float m_mouseX, m_mouseY;				// Mouse X & Y position for checking for edge of screen	
     public float m_zoomSpeed = 10, 					// Speed of zoom
                  m_keySpeed = 200, 					// Speed of pan using keyboard keys
                  m_dragSpeed = 140, 				// Speed of pan using middle mouse to drag
@@ -32,7 +33,6 @@ public class CameraController : MonoBehaviour
     public float m_scrollBox = 30;					// How large is the hit area on edge of screen. 
     public float m_scrollSpeed = 50;				// Speed at which the camera translates. 
 
-    private int[] m_rotationAngles = new int[4]; 	// Rotation angles. 
     private int m_currentAngle = 0; 				// What is the current camera angle.
     public bool m_canZoom = false; 					// Can the player toggle zoom states? // TEMPORARY FOR TESTING \\ 
 
@@ -41,14 +41,6 @@ public class CameraController : MonoBehaviour
         m_gameCam = gameObject.GetComponentInChildren<Camera>().gameObject;
         m_gameCam.transform.localPosition = m_camOffset;
         m_gameCam.transform.LookAt(gameObject.transform);	// watch camera container
-
-        // Set angles
-        m_rotationAngles[0] = 0;
-        m_rotationAngles[1] = 90;
-        m_rotationAngles[2] = 180;
-        m_rotationAngles[3] = 270;
-
-        m_cameraState = CameraState.overhead;
     }
 
     void Update()
@@ -63,8 +55,7 @@ public class CameraController : MonoBehaviour
 
                 break;
             case CameraState.follow:
-                //FollowTarget ();
-                PlayerControl();
+                FollowTarget();
                 break;
             case CameraState.none:
                 //Do nothing
@@ -75,12 +66,14 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    void FollowTarget()
+    {
+
+            transform.position = m_target.position + new Vector3(-30, 100, 0);
+    }
+
     void PlayerControl()
     {
-        // Cursor position
-        m_mouseX = Input.mousePosition.x;
-        m_mouseY = Input.mousePosition.y;
-
         // Clear camera translation.
         var camTranslation = Vector3.zero;
         float camZoom = 0;
@@ -125,22 +118,6 @@ public class CameraController : MonoBehaviour
                                        Input.GetAxis("Mouse X") * m_dragSpeed * Time.deltaTime);
                     break;
             }
-        }
-
-        // Translates the camera holder when the mouse cursor is on the edge of the screen.
-        if (!Input.GetMouseButton(2))
-        {
-            if (m_mouseX < m_scrollBox && m_mouseX > -50)
-                camTranslation += tempLeft * m_scrollSpeed * Time.deltaTime;
-
-            if (m_mouseX >= Screen.width - m_scrollBox && m_mouseX < Screen.width + 50)
-                camTranslation += tempRight * m_scrollSpeed * Time.deltaTime;
-
-            if (m_mouseY < m_scrollBox && m_mouseY > -50)
-                camTranslation += tempForward * -m_scrollSpeed * Time.deltaTime;
-
-            if (m_mouseY >= Screen.height - m_scrollBox && m_mouseY < Screen.height + 50)
-                camTranslation += tempForward * m_scrollSpeed * Time.deltaTime;
         }
 
         // Define zoom max/min	

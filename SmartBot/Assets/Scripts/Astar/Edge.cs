@@ -1,11 +1,27 @@
 using UnityEngine;
 using System.Collections;
 
-public class Edge : MonoBehaviour
+public class Edge
 {
-    Node m_NodeOne, m_NodeTwo;
-    //TODO: implement this
-    public bool m_oneIsParent;
+    public GraphNode m_NodeOne, m_NodeTwo;
+    public GraphNode NodeOne
+    {
+        get
+        {
+            return m_NodeOne;
+        }
+    }
+    public GraphNode NodeTwo
+    {
+        get
+        {
+            return m_NodeTwo;
+        }
+    }
+
+    public float m_traversalCost;
+
+    public Vector3 m_position;
 
     public enum EdgeAction
     {
@@ -14,12 +30,26 @@ public class Edge : MonoBehaviour
     }
     EdgeAction m_edgeAction;
 
-    public Edge(Node one, Node two, EdgeAction action)
+    public EdgeAction Action
     {
+        get
+        {
+            return m_edgeAction;
+        }
+    }
+
+    public Edge()
+    {
+
+    }
+
+    public Edge(GraphNode one, GraphNode two, EdgeAction action, float cost, Vector3 position)
+    {
+        m_position = position;
         m_NodeOne = one;
         m_NodeTwo = two;
         m_edgeAction = action;
-
+        m_traversalCost = cost;
     }
 
 }

@@ -1,25 +1,28 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CombatDummy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Bot.cs">
     <Files>
-      <File FileName="Assets\Scripts\Pather.cs" Line="102" Column="1" />
-      <File FileName="Assets\Scripts\Astar\Node.cs" Line="87" Column="16" />
-      <File FileName="Assets\Scripts\CombatDummy.cs" Line="72" Column="1" />
+      <File FileName="Assets\Scripts\Bot.cs" Line="156" Column="8" />
+      <File FileName="Assets\Scripts\Astar\Graph.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Astar\Astar.cs" Line="332" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True" selected="True">
-          <Node name="Assembly-CSharp" expanded="True" />
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="Astar" expanded="True" />
+                <Node name="Bot.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="H:\Git\SmartBot\SmartBot\Assets\Scripts\CombatDummy.cs" line="129" />
-      <Breakpoint file="H:\Git\SmartBot\SmartBot\Assets\Scripts\CombatDummy.cs" line="89" />
-      <Breakpoint file="H:\Git\SmartBot\SmartBot\Assets\Scripts\CombatDummy.cs" line="89" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

@@ -45,6 +45,14 @@ public class Node : MonoBehaviour
     }
     NodeType m_nodeType;
 
+    public NodeType Type
+    {
+        get
+        {
+            return m_nodeType;
+        }
+    }
+
     void Awake()
     {
         Initialise();
@@ -140,6 +148,30 @@ public class Node : MonoBehaviour
             //calc f
             m_FCost = m_GCost + m_HCost;
             MonoBehaviour.Instantiate(Resources.Load("Prefabs/AstarSearchMarker", typeof(GameObject)), m_position, Quaternion.identity);
+        }
+    }
+
+    public void CalculateEdgeBasedLocalFGH(Node goalNode, float edgeCost)
+    {
+        bool canContinue = true;
+        if (m_Parent == null)
+        {
+            Debug.LogError("Can't calculate FGH's, No Parent");
+            canContinue = false;
+        }
+        if (goalNode == null)
+        {
+            Debug.LogError("Can't calculate FGH's, No goal");
+            canContinue = false;
+        }
+        if (canContinue)
+        {
+            //calc g
+            m_GCost = m_Parent.m_GCost + edgeCost;
+            //calc h
+            m_HCost = (m_position - goalNode.m_position).magnitude + edgeCost;  //TODO: remove magnitudes
+            //calc f
+            m_FCost = m_GCost + m_HCost;
         }
     }
     //~astar methods

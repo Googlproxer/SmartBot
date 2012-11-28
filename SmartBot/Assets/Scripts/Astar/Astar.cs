@@ -9,6 +9,11 @@ public class Astar
     List<Node> m_OpenNodes;
     List<Node> m_ClosedNodes;
 
+    List<GraphNode> m_OpenGraphNodes;
+    List<GraphNode> m_ClosedGraphNodes;
+
+    GraphNode m_currentGraphNode;
+
     Node m_current;
     bool m_pathSuccessful;
     Path m_ComputedPath;
@@ -29,6 +34,9 @@ public class Astar
     {
         m_OpenNodes = new List<Node>();
         m_ClosedNodes = new List<Node>();
+
+        m_OpenGraphNodes = new List<GraphNode>();
+        m_ClosedGraphNodes = new List<GraphNode>();
 
         m_ComputedPath = new Path();
 
@@ -228,4 +236,101 @@ public class Astar
         return m_ComputedPath;
     }
 
+    public Path CalculateEdgeBasedPath(GraphNode start, GraphNode end)
+    {
+        timer.Start();
+        Edge currentEdge = new Edge();
+        //remove old path
+        m_ComputedPath.ClearPath();
+        //empty old lists
+        foreach (GraphNode node in m_OpenGraphNodes)
+            node.m_open = false;
+        m_OpenGraphNodes.Clear();
+        m_OpenGraphNodes.TrimExcess();
+        foreach (GraphNode node in m_ClosedGraphNodes)
+            node.m_closed = false;
+        m_ClosedGraphNodes.Clear();
+        m_ClosedGraphNodes.TrimExcess();
+        //add inital node
+        m_OpenGraphNodes.Add(start);
+        start.m_open = true;
+        while (m_OpenGraphNodes.Count != 0 || (m_currentGraphNode.m_closed && m_currentGraphNode != end))
+        {
+            if (m_OpenGraphNodes.Count == 0)
+            {
+                m_pathSuccessful = false;
+                break;
+            }
+            m_currentGraphNode = m_OpenGraphNodes[0];
+            m_OpenGraphNodes.RemoveAt(0);
+            m_currentGraphNode.m_open = false;
+            m_ClosedGraphNodes.Add(m_currentGraphNode);
+            m_currentGraphNode.m_closed = true;
+            if (m_currentGraphNode == end)
+            {
+                m_pathSuccessful = true;
+                break;
+            }
+            for (int i = 0; i < m_currentGraphNode.m_AdjacentNodes.Count; i++)// (Node adjacent in m_current.m_AdjacentNodes)
+            {
+                currentEdge = m_currentGraphNode.m_ConnectedEdges[i];
+                if (m_currentGraphNode.m_AdjacentNodes[i].m_walkable == false || m_currentGraphNode.m_AdjacentNodes[i].m_closed)
+                    continue;
+                if (!m_currentGraphNode.m_AdjacentNodes[i].m_open)
+                {
+                    m_OpenGraphNodes.Add(m_currentGraphNode.m_AdjacentNodes[i]);
+                    m_currentGraphNode.m_AdjacentNodes[i].m_open = true;
+                    m_currentGraphNode.m_AdjacentNodes[i].m_Parent = m_currentGraphNode;
+                    m_currentGraphNode.m_AdjacentNodes[i].m_ParentEdge = currentEdge;
+                    m_currentGraphNode.m_AdjacentNodes[i].CalculateEdgeBasedLocalFGH(end, currentEdge.m_traversalCost);
+                    //resort list
+                    m_OpenGraphNodes.Sort((node1, node2) => node1.m_FCost.CompareTo(node2.m_FCost));
+                }
+                if (m_currentGraphNode.m_AdjacentNodes[i].m_open && m_currentGraphNode.m_AdjacentNodes[i].m_GCost < m_currentGraphNode.m_GCost)
+                {
+                    m_currentGraphNode.m_AdjacentNodes[i].m_Parent = m_currentGraphNode;
+                    m_currentGraphNode.m_AdjacentNodes[i].m_ParentEdge = currentEdge;
+                    m_currentGraphNode.m_AdjacentNodes[i].CalculateEdgeBasedLocalFGH(end, currentEdge.m_traversalCost);
+                    //resort list
+                    m_OpenGraphNodes.Sort((node1, node2) => node1.m_FCost.CompareTo(node2.m_FCost));
+                }
+            }
+            //sort open by f (lowest first)
+            m_OpenGraphNodes.Sort((node1, node2) => node1.m_FCost.CompareTo(node2.m_FCost));
+        }
+        //~while
+        timer.Stop();
+
+        if (m_pathSuccessful)
+        {
+            //build path
+            m_currentGraphNode = end;
+            while (m_currentGraphNode != start)
+            {
+                m_ComputedPath.AddNode(m_currentGraphNode);
+                if (m_currentGraphNode.m_ParentEdge != null)
+                {
+                    m_ComputedPath.AddEdge(m_currentGraphNode.m_ParentEdge);
+                }
+                //if no parent assume its the start
+                if (m_currentGraphNode.m_Parent != null)
+                {
+                    m_currentGraphNode = m_currentGraphNode.m_Parent;
+                }
+                else
+                    break;
+            }
+            if (m_currentGraphNode == start)
+                m_ComputedPath.AddNode(m_currentGraphNode);
+            //~while
+        }
+        else
+        {
+            Debug.LogWarning("No Path!");
+            return null;
+        }
+        Debug.Log("Time taken to Calculate Path: " + (float.Parse(timer.ElapsedTicks.ToString()) / 10000).ToString() + "ms");
+        timer.Reset();
+        return m_ComputedPath;
+    }
 }

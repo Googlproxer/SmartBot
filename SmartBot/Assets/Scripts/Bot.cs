@@ -7,7 +7,7 @@ public class Bot : MonoBehaviour
     //pathfinding members
     Path m_path;
     Vector3 m_targetPosition, m_currentPosition, m_lastPosition, m_direction;
-    
+
     public float m_rotationRate = 7.5f;
     public float m_moveSpeed;
     int m_nodeProximity;
@@ -81,6 +81,15 @@ public class Bot : MonoBehaviour
     Vector3 m_LastLook;
     Quaternion m_targetRotation;
 
+    Graph m_graph;
+    Astar m_astar;
+    Path m_graphPath;
+
+    int m_currAction;
+    bool planned = false;
+    bool started = false;
+    public Transform m_firepoint;
+
     void Awake()
     {
         m_targetPosition = transform.position;
@@ -96,6 +105,12 @@ public class Bot : MonoBehaviour
         m_canMove = true;
         m_ray = new Ray();
         m_hit = new RaycastHit();
+
+        m_graph = new Graph(Physics.OverlapSphere(new Vector3(720, 0, 736), 96));
+        m_astar = new Astar();
+        m_graphPath = new Path();
+
+        m_currAction = 0;
     }
 
     public void Update()
@@ -111,9 +126,37 @@ public class Bot : MonoBehaviour
                 Pather.m_start = GetClosestNode();
                 Pather.m_end = m_hit.transform.GetComponent<Node>();
                 m_currNode = 0;
-                Pather.CalculateWeightedPath();
+                Pather.ComputePath();
             }
         }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            started = true;
+        }
+        if(started)
+        {
+            m_graph.ClearGraph();
+            m_graph = new Graph(Physics.OverlapSphere(new Vector3(720, 0, 736), 96));
+            GraphNode start = new GraphNode();
+            GraphNode end = new GraphNode();
+            foreach (GraphNode gnode in m_graph.GraphNodes)
+            {
+                if (gnode.Type == GraphNode.NodeType.NT_Door)
+                    start = gnode;
+                if (gnode.Type == GraphNode.NodeType.NT_Target)
+                    end = gnode;
+                if (start.m_AdjacentNodes != null && end.m_AdjacentNodes != null)
+                    if (start.Type == GraphNode.NodeType.NT_Door && end.Type == GraphNode.NodeType.NT_Target)
+                        break;
+            }
+            m_graphPath = m_astar.CalculateEdgeBasedPath(start, end);
+            planned = true;
+            m_currNode = 0;
+            m_currAction = 0;
+            started = false;
+        }
+        if (planned)
+            ExecutePlan();
         if (m_canMove)
         {
             MoveAlongPath();
@@ -173,13 +216,54 @@ public class Bot : MonoBehaviour
         return closest.GetComponent<Node>();
     }
 
-    void DoCombat()
+    void ExecutePlan()
     {
 
-    }
+        if (m_graphPath != null)
+        {
+            if (m_graphPath.GraphNodes.Count > 0)
+            {
+                if (m_currNode < m_graphPath.GraphNodes.Count)
+                {
+                    if (m_currAction < m_graphPath.Edges.Count)
+                    {
+                        switch (m_graphPath.Edges[m_currAction].Action)
+                        {
+                            case Edge.EdgeAction.EA_Move:
+                                m_direction = (m_graphPath.GraphNodes[m_currNode].m_position - m_currentPosition).normalized;
 
-    void ChoosePath()
-    {
-        
+                                LookAtPosition(m_currentPosition + m_direction);
+
+                                m_currentPosition += m_direction * m_moveSpeed * Time.deltaTime;
+
+                                if ((m_graphPath.GraphNodes[m_currNode].m_position - m_currentPosition).magnitude < m_nodeProximity)
+                                {
+                                    if (m_currNode > 0)
+                                        m_currAction++;
+                                    m_currNode++;
+                                }
+                                break;
+                            case Edge.EdgeAction.EA_Shoot:
+                                RaycastHit hit;
+                                m_direction = (m_graphPath.GraphNodes[m_currNode].m_position - m_currentPosition).normalized;
+                                LookAtPosition(m_currentPosition + m_direction);
+                                if (Physics.Raycast(m_firepoint.position, (new Vector3(m_graphPath.GraphNodes[m_currNode].m_position.x, 16, m_graphPath.GraphNodes[m_currNode].m_position.z) - m_firepoint.position), out hit, (new Vector3(m_graphPath.GraphNodes[m_currNode].m_position.x, 16, m_graphPath.GraphNodes[m_currNode].m_position.z) - m_firepoint.position).magnitude * 1.1f, (1 << 13)))
+                                {
+                                    hit.transform.gameObject.GetComponent<CombatDummy>().m_health = 0;
+                                    if (m_currNode > 0)
+                                        m_currAction++;
+                                    m_currNode++;
+                                }
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        planned = false;
+                        started = true;
+                    }
+                }
+            }
+        }
     }
 }

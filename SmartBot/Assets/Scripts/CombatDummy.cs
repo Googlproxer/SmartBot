@@ -20,6 +20,9 @@ public class CombatDummy : MonoBehaviour
 
     public float m_reloadTime;
     float m_reloadtimer;
+
+    public float m_health = 100;
+
     // Use this for initialization
     void Start()
     {
@@ -65,10 +68,14 @@ public class CombatDummy : MonoBehaviour
                     m_fireTimer = 0;
                     Fire();
                 }
-                transform.LookAt(m_Target.transform.position);
+                transform.LookAt(m_targetPosition);
             }
         }
         UpdateBullets();
+        if (m_health <= 0)
+        {
+            transform.position = Vector3.zero;
+        }
     }
 
     void UpdateBullets()
@@ -134,10 +141,9 @@ public class CombatDummy : MonoBehaviour
 
     public static bool CheckFiringLine(Vector3 startPos, Vector3 endPos)
     {
-        RaycastHit hit;
-        int layerMask = 1 << 8;//Layer mask to only collide against walls
+        int layerMask = (1 << 8) | (1 << 10);//Layer mask to only collide against walls
 
-        if (Physics.Linecast(startPos, endPos, out hit, layerMask))//If we hit a wall
+        if (Physics.Linecast(startPos, endPos, layerMask))//If we hit a wall
         {
             Debug.DrawLine(startPos, endPos, Color.red, 1f);
             return false;//Return false
